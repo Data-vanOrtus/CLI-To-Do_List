@@ -28,4 +28,4 @@ The docs can be found in the */docs folder and the repos wiki (once i add those 
 ### NOT Permitted AI Usage
 
 - AI (non FIM) code, PRs, docs, comments, etc.
-  ^this is not an exaustive list
+  this is not an exaustive list

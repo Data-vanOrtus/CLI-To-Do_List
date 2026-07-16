@@ -3,30 +3,31 @@
 ## general formatting
 
 The formatting is simple.
--While there is no hard limit for line length, aim for less than 120,
+
+- While there is no hard limit for line length, aim for less than 120,
  at all times, with less than 100 being optimal
  (one or two over doesnt matter)
--Readabilety should be a target to strive for.
+- Readabilety should be a target to strive for.
  If, and only if, it is not apparent what your code does,
  add an explanatory comment and docs.
--DO NOT use namespaces, always use eg: std::,
+- DO NOT use namespaces, always use eg: std::,
  or class_name::
--Assignment, comparison and arithmetic operators should always be surrounded
+- Assignment, comparison and arithmetic operators should always be surrounded
  by spaces (exceptions being eg i++ and i-- or similar)
--Brackets of the () and {} variety, when not used in functions or similar
+- Brackets of the () and {} variety, when not used in functions or similar
  should always be separated from their contents by whitespaces on both sides.
  Exceptions being eg: (*variable).operation
  (*variable).sub_object or similar
--(de-)reference operators should always be as such:
+- (de-)reference operators should always be as such:
  var_type* name
  var_type& name
  *var_name
  &var_name
  (as applicable)
  Please do not separate them with a whitespace
--Brackets of the [] variety used for indexing or defining array length
+- Brackets of the [] variety used for indexing or defining array length
  should NOT be seperated from their contents by whitespaces
--A tab is required as an indent for:
+- A tab is required as an indent for:
  Functions
  Loops (including if/else)
  Switch case:
