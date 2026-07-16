@@ -245,8 +245,7 @@ class big_list_stuff {
         }
 
     private:
-        struct
-            {
+        struct {
             bool operator()(to_do_item a, to_do_item b) const { return a.priority < b.priority; }
         } customLess;
 };
@@ -430,7 +429,7 @@ class TUI {
             int command_id;
             try {
                 command_id = base_command_ids.at( tokens[0] );
-                switch(command_id) {
+                switch( command_id ) {
                     case 1:
                         base_command = tokens[0];
                         filename = tokens[1];
@@ -587,7 +586,7 @@ int main() {
         if ( input_command.invalid_command ) {
             continue;
         } else {
-            switch( base_command_ids.at( input_command.base_command )) {
+            switch( base_command_ids.at( input_command.base_command ) ) {
                 case 1:
                     //open a file
                     if ( !current_list.is_open() ) {
