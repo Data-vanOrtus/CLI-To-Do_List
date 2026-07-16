@@ -14,13 +14,13 @@
 //#include <windows.h> //windows
 //#include <unistd.h> //linux,unix
 
-using namespace std;
+//using namespace std;
 
-const string ESC =  "\033";
-const string BGR_COLOR_CODE = "48";
-const string TXT_COLOR_CODE = "38";
-const string TRUE_RGB_CODE = "2";
-const string RESET_CODE = ESC + "[" + "m";
+const std::string ESC =  "\033";
+const std::string BGR_COLOR_CODE = "48";
+const std::string TXT_COLOR_CODE = "38";
+const std::string TRUE_RGB_CODE = "2";
+const std::string RESET_CODE = ESC + "[" + "m";
 
 const int black[3] = { 0, 0, 0 };
 const int grey[3] = { 130, 130,  130 };
@@ -49,26 +49,26 @@ const int light_green[3] = { 51, 255, 51 };
 
 struct to_do_item {
     unsigned long priority;
-    string name;
-    string description;
-    string details;
-    string status;
+    std::string name;
+    std::string description;
+    std::string details;
+    std::string status;
     float completion;
 };
 
 struct command {
-    string base_command;
-    string name;
+    std::string base_command;
+    std::string name;
     unsigned long priority;
-    string description;
-    string details;
-    string status;
+    std::string description;
+    std::string details;
+    std::string status;
     float completion;
-    string filename;
+    std::string filename;
     bool invalid_command = false;
 };
 
-map<string, int> base_command_ids = {
+std::map<std::string, int> base_command_ids = {
     { "/open", 1 },
     { "/create", 2 },
     { "/add", 3 },
@@ -87,13 +87,13 @@ map<string, int> base_command_ids = {
 class big_list_stuff {
     public:
         //index = priority - 1
-        vector<to_do_item> MAIN_LIST;
+        std::vector<to_do_item> MAIN_LIST;
 
-        void add_item( string name,
+        void add_item( std::string name,
                        unsigned long priority,
-                       string description,
-                       string details,
-                       string status,
+                       std::string description,
+                       std::string details,
+                       std::string status,
                        float completion )
             {
             to_do_item* to_add = new to_do_item;
@@ -118,7 +118,7 @@ class big_list_stuff {
             delete to_add;
         }
 
-        void remove_item( string name )
+        void remove_item( std::string name )
             {
             int index;
             for ( int i = 0; i < MAIN_LIST.size(); i++ )
@@ -126,7 +126,7 @@ class big_list_stuff {
                 if ( MAIN_LIST.at( i ).name == name ) {
                     unsigned long priority;
                     index = i;
-                    vector<to_do_item>::iterator iter_pos;
+                    std::vector<to_do_item>::iterator iter_pos;
                     iter_pos = MAIN_LIST.begin() + i;
                     priority = MAIN_LIST.at( index ).priority;
                     for ( int prio = priority + 1; prio <= MAIN_LIST.size(); prio++ )
@@ -142,7 +142,7 @@ class big_list_stuff {
             }
         }
 
-        void change_prority( string name,
+        void change_prority( std::string name,
                              unsigned long new_priority )
             {
             int index;
@@ -180,8 +180,8 @@ class big_list_stuff {
             }
         }
 
-        void change_description( string name,
-                                 string new_description )
+        void change_description( std::string name,
+                                 std::string new_description )
             {
             int index;
             //check for out of bounds error
@@ -196,8 +196,8 @@ class big_list_stuff {
             }
         }
 
-        void change_details( string name,
-                             string new_details )
+        void change_details( std::string name,
+                             std::string new_details )
             {
             int index;
             //check for out of bounds error
@@ -212,8 +212,8 @@ class big_list_stuff {
             }
         }
 
-        void change_status( string name,
-                            string new_status )
+        void change_status( std::string name,
+                            std::string new_status )
             {
             int index;
             //check for out of bounds error
@@ -228,7 +228,7 @@ class big_list_stuff {
             }
         }
 
-        void change_completion( string name,
+        void change_completion( std::string name,
                                 float new_completion )
             {
             int index;
@@ -253,95 +253,95 @@ class big_list_stuff {
 
 class File_handler {
     public:
-        void create_or_open( fstream& file,
-                             string filename )
+        void create_or_open( std::fstream& file,
+                             std::string filename )
             {
             file.open( filename,
-                       ios::out | ios::in | ios::app );
+                       std::ios::out | std::ios::in | std::ios::app );
         }
 
-        void close_file( fstream& file,
-                         string filename )
+        void close_file( std::fstream& file,
+                         std::string filename )
             {
             file.close();
         }
 
-        void read_file_to_list( fstream& file,
-                                vector<to_do_item> &List )
+        void read_file_to_list( std::fstream& file,
+                                std::vector<to_do_item> &List )
             {
-            string line;
-            while ( getline( file, line ) )
+            std::string line;
+            while ( std::getline( file, line ) )
                 { //read all lines, seperated by newline
-                stringstream sstream( line );
-                string field;
-                vector<string> row;
+                std::stringstream sstream( line );
+                std::string field;
+                std::vector<std::string> row;
                 to_do_item item_line;
 
-                while ( getline( sstream, field, ',' ) )
+                while ( std::getline( sstream, field, ',' ) )
                     { //seperate comma seperated values
                     row.push_back( field );
                 }
 
                 //add values to item
-                item_line.priority = stoul( row[0] );
+                item_line.priority = std::stoul( row[0] );
                 item_line.name = row[1];
                 item_line.description = row[2];
                 item_line.details = row[3];
                 item_line.status = row[4];
-                item_line.completion = stof( row[5] );
+                item_line.completion = std::stof( row[5] );
                 
                 //add item to list
                 List.push_back( item_line );
             }
         }
 
-        void write_list_to_file( fstream& file,
-                                 string file_name,
-                                 vector<to_do_item> list )
+        void write_list_to_file( std::fstream& file,
+                                 std::string file_name,
+                                 std::vector<to_do_item> list )
             {
-            fstream list_new;
+            std::fstream list_new;
             list_new.open( "temp_list",
-                           ios::out | ios::in | ios::app | ios::trunc );
+                           std::ios::out | std::ios::in | std::ios::app | std::ios::trunc );
             for ( to_do_item row : list )
                 {
-                list_new << to_string( row.priority ) << ",";
+                list_new << std::to_string( row.priority ) << ",";
                 list_new << row.name << ",";
                 list_new << row.description << ",";
                 list_new << row.details << "<";
                 list_new << row.status << ",";
-                list_new << to_string( row.completion ) << "\n";
+                list_new << std::to_string( row.completion ) << "\n";
             }
 
             file.close();
             file.open( file_name,
-                       ios::out | ios::in | ios::app | ios::trunc ); //this clears the file
+                       std::ios::out | std::ios::in | std::ios::app | std::ios::trunc ); //this clears the file
             file << list_new.rdbuf();
             list_new.close();
         }
 
-        void remove_file( string filename )
+        void remove_file( std::string filename )
             {
             remove( filename.c_str() );
         }
 
-        void rename_file( string filename,
-                          string new_name )
+        void rename_file( std::string filename,
+                          std::string new_name )
             {
             rename( filename.c_str(),
                     new_name.c_str() );
         }
 
-        void move_pointer( fstream& file,
+        void move_pointer( std::fstream& file,
                            int line,
                            //int col,
                            bool write_poiter= false ) 
             {
             if ( write_poiter ) {
                 file.seekp( line,
-                            fstream::beg );
+                            std::fstream::beg );
             } else {
                 file.seekg( line,
-                            fstream::beg );
+                            std::fstream::beg );
             }
         }
 };
@@ -355,12 +355,12 @@ class TUI {
         command read_and_format()
             {
             command user_command;
-            string input = read_user_input();
+            std::string input = read_user_input();
             user_command = format_user_input( input );
             return user_command;
         }
 
-        void print_c_tui( string text,
+        void print_c_tui( std::string text,
                           int text_color[3],
                           int bgr_color[3] )
             {
@@ -378,12 +378,12 @@ class TUI {
         }
 
     private:
-        string read_user_input()
+        std::string read_user_input()
             {
-            string user_command;
+            std::string user_command;
             int len_input = 1000;
             char input[len_input];
-            cin.getline( input,
+            std::cin.getline( input,
                         len_input );
             for ( char symbol : input )
                 {
@@ -392,27 +392,27 @@ class TUI {
             return user_command;
         }
 
-        command format_user_input( string input )
+        command format_user_input( std::string input )
             {
-            vector<string> tokens;
-            string delimiter = " ";
+            std::vector<std::string> tokens;
+            std::string delimiter = " ";
             size_t pos = 0;
             int input_length = input.length();
-            string token;
+            std::string token;
 
-            string base_command;
-            string name ="";
-            string priority = "";
-            string description = "";
-            string details = "";
-            string status = "";
-            string completion = "";
-            string filename = "";
+            std::string base_command;
+            std::string name ="";
+            std::string priority = "";
+            std::string description = "";
+            std::string details = "";
+            std::string status = "";
+            std::string completion = "";
+            std::string filename = "";
 
             command user_command_formatted;
 
             if ( input[0] == '/' ) {
-                while(( pos = input.find(delimiter)) != string::npos )
+                while(( pos = input.find(delimiter)) != std::string::npos )
                     {
                     token = input.substr( 0,
                                           pos );
@@ -504,34 +504,34 @@ class TUI {
             return user_command_formatted;
         }
 
-        string assemble_color_indic( int red,
+        std::string assemble_color_indic( int red,
                                      int green,
                                      int blue,
                                      bool bgr= false )
             {
-            string out;
+            std::string out;
             out = out + ESC + "[";
             out = bgr ? out + BGR_COLOR_CODE : out + TXT_COLOR_CODE;
             out = out + ";";
-            out = out + to_string( red ) + ";";
-            out = out + to_string( green ) + ";";
-            out = out + to_string( blue );
+            out = out + std::to_string( red ) + ";";
+            out = out + std::to_string( green ) + ";";
+            out = out + std::to_string( blue );
             out = out + "m";
 
             return out;
         }
 
-        void print_c( string text,
+        void print_c( std::string text,
                       const int bgr_color[3]= black,
                       const int txt_color[3]= white )
             {
-            string txt_color_code = assemble_color_indic( txt_color[0],
+            std::string txt_color_code = assemble_color_indic( txt_color[0],
                                                           txt_color[1],
                                                           txt_color[2] );
-            string bgr_color_code = assemble_color_indic( bgr_color[0],
+            std::string bgr_color_code = assemble_color_indic( bgr_color[0],
                                                           bgr_color[1],
                                                           bgr_color[2] );
-            cout << txt_color_code << bgr_color_code << text << RESET_CODE;
+            std::cout << txt_color_code << bgr_color_code << text << RESET_CODE;
         }
 
         void print_commands()
@@ -573,15 +573,15 @@ int main() {
     command input_command;
     File_handler file_handler;
 
-    fstream current_list;
-    string current_list_name;
+    std::fstream current_list;
+    std::string current_list_name;
 
     volatile bool run = true;
     while( run ) {
-        while ( !cin.peek() )
+        while ( !std::cin.peek() )
             {
             //do nothing, this_thread is the correct one lol
-            this_thread::sleep_for( chrono::milliseconds( 500 ) );
+            std::this_thread::sleep_for( std::chrono::milliseconds( 500 ) );
         }
         input_command = Tui.read_and_format();
         if ( input_command.invalid_command ) {
@@ -643,10 +643,10 @@ int main() {
                     //print the list
                     for ( to_do_item row : LIST.MAIN_LIST )
                         {
-                        cout << "priority: " << to_string( row.priority ) << " ";
-                        cout << "name: " << row.name << " ";
-                        cout << "completion: " << to_string( row.completion ) << " ";
-                        cout << "description: " << row.description << "\n";
+                        std::cout << "priority: " << std::to_string( row.priority ) << " ";
+                        std::cout << "name: " << row.name << " ";
+                        std::cout << "completion: " << std::to_string( row.completion ) << " ";
+                        std::cout << "description: " << row.description << "\n";
                     }
                 case 13:
                     //print specific element of the list
@@ -658,12 +658,12 @@ int main() {
                             break;
                         }
                     }
-                    cout << "priority: " << to_string( LIST.MAIN_LIST[index].priority ) << " ";
-                    cout << "name: " << LIST.MAIN_LIST[index].name << " ";
-                    cout << "completion: " << to_string( LIST.MAIN_LIST[index].completion ) << "\n";
-                    cout << "description: " << LIST.MAIN_LIST[index].description << "\n";
-                    cout << "details: " << LIST.MAIN_LIST[index].details << "\n";
-                    cout << "status: " << LIST.MAIN_LIST[index].status << "\n";
+                    std::cout << "priority: " << std::to_string( LIST.MAIN_LIST[index].priority ) << " ";
+                    std::cout << "name: " << LIST.MAIN_LIST[index].name << " ";
+                    std::cout << "completion: " << std::to_string( LIST.MAIN_LIST[index].completion ) << "\n";
+                    std::cout << "description: " << LIST.MAIN_LIST[index].description << "\n";
+                    std::cout << "details: " << LIST.MAIN_LIST[index].details << "\n";
+                    std::cout << "status: " << LIST.MAIN_LIST[index].status << "\n";
             }
         }
     }
