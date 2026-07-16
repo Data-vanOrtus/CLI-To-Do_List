@@ -1,0 +1,6 @@
+{
+    "editor.minimap.renderCharacters": true,
+    "editor.minimap.scale": 3,
+    "editor.minimap.sectionHeaderFontSize": 9,
+    "editor.minimap.maxColumn": 80
+}
