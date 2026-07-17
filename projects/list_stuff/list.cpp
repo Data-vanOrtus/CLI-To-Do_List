@@ -14,7 +14,6 @@
 //#include <windows.h> //windows
 //#include <unistd.h> //linux,unix
 
-//using namespace std;
 
 const std::string ESC =  "\033";
 const std::string BGR_COLOR_CODE = "48";
