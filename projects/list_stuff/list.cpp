@@ -359,8 +359,8 @@ class TUI {
         }
 
         void print_c_tui( std::string text,
-                          int text_color[3],
-                          int bgr_color[3] )
+                          const int text_color[3],
+                          const int bgr_color[3] )
             {
             print_c( text,
                      text_color,
@@ -379,7 +379,7 @@ class TUI {
         std::string read_user_input()
             {
             std::string user_command;
-            int len_input = 1000;
+            const int len_input = 1000;
             char input[len_input];
             std::cin.getline( input,
                         len_input );
@@ -592,6 +592,8 @@ int main() {
                         file_handler.create_or_open( current_list,
                                                      input_command.filename );
                         current_list_name = input_command.filename;
+                    } else {
+                        Tui.print_c_tui( " File is opened. Please close it first.\n", light_blue, red );
                     }
                 case 2:
                     //create a file
